@@ -29,10 +29,10 @@ To analyze pizza sales data to uncover:
 - `pizza_types` – name, category, and ingredients
 
 ### Entity Relationship Diagram
-![ER Diagram](./erd.png)
+![ER Diagram](./erdiagram.png)
 
 *Data Source:* 
-[Insert link if dataset is from Kaggle or public repo]
+[Dataset](https://github.com/AdityaAgarwal1602/sql_pizza_sales_analysis/tree/main/dataset)
 
 **Query:**
 ```sql

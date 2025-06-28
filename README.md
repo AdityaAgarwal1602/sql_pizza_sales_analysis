@@ -148,16 +148,6 @@ FROM order_details AS o
 JOIN pizzas AS p
 ON o.pizza_id=p.pizza_id;
 
--- What are the top 5 best-selling pizzas?
-SELECT pt.name, COUNT(o.order_details_id) AS count
-FROM order_details AS o
-JOIN pizzas AS p
-ON o.pizza_id=p.pizza_id
-JOIN pizza_types AS pt
-ON pt.pizza_type_id=p.pizza_type_id
-GROUP BY pt.name
-ORDER BY count DESC LIMIT 5;
-
 -- What is the average order value?
 SELECT ROUND(AVG(o.quantity*p.price),2) AS avg_order_value
 FROM order_details AS o
@@ -178,20 +168,6 @@ JOIN pizza_types AS pt
 ON pt.pizza_type_id=p.pizza_type_id
 GROUP BY pt.category
 ORDER BY contribution DESC;
-
--- What is the hourly order distribution?
-SELECT EXTRACT(HOUR FROM time) AS hour, COUNT(order_id) AS sales_count
-FROM orders
-GROUP BY hour
-ORDER BY sales_count DESC;
-
--- What is the average revenue per order?
-SELECT ROUND(SUM(od.quantity * p.price) / COUNT(DISTINCT o.order_id), 2) AS avg_order_revenue
-FROM orders o
-JOIN order_details od 
-ON o.order_id = od.order_id
-JOIN pizzas p 
-ON p.pizza_id = od.pizza_id;
 
 -- Which day of the week brings in the most revenue?
 SELECT TO_CHAR(o.date, 'Day') AS day, SUM(od.quantity*p.price) AS total_revenue
@@ -243,6 +219,25 @@ SELECT * FROM pizza_sales;
 ```
 *All Queries:* 
 [Link](https://github.com/AdityaAgarwal1602/sql_pizza_sales_analysis/tree/main/pizza_sales_analysis.sql)
+
+---
+
+## Conclusion
+
+This SQL-based data analysis project successfully demonstrated a full end-to-end data workflow — from importing and cleaning real-world pizza sales data to performing deep business analysis.
+
+**Key Outcomes:**
+- Identified top-performing and least-selling pizzas
+- Discovered peak order times and revenue-generating days
+- Analyzed monthly revenue trends and category-wise contributions
+- Compared high-priced vs low-priced pizza performance using CTEs
+- Demonstrated use of SQL joins, aggregation, filtering, and window functions
+
+The insights derived from this project can help a business make data-driven decisions around menu design, pricing strategy, and marketing focus.
+
+This project also serves as a practical example of using SQL for exploratory and business intelligence tasks — useful for any aspiring data analyst or data scientist.
+
+---
 
 ## License
 

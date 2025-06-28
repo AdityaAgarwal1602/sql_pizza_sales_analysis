@@ -17,7 +17,7 @@ To analyze pizza sales data to uncover:
 
 ##  4-Step Data Analysis Process
 
-+ ## Step 1: Data Import & Setup
+### Step 1: Data Import & Setup
 -  Created database and tables (`CREATE TABLE`)
 -  Defined foreign key relationships
 -  Imported CSV files into PostgreSQL using `COPY` command
@@ -31,7 +31,7 @@ To analyze pizza sales data to uncover:
 ### Entity Relationship Diagram
 ![ER Diagram](./erdiagram.png)
 
-*Data Source:* 
+**Data Source:**
 [Dataset](https://github.com/AdityaAgarwal1602/sql_pizza_sales_analysis/tree/main/dataset)
 
 **Query:**
@@ -80,7 +80,7 @@ COPY pizzas FROM 'D:\pizzas.csv' DELIMITER ',' CSV HEADER;
 COPY pizza_types FROM 'D:\pizza_types_utf8.csv' DELIMITER ',' CSV HEADER;
 ```
 
-+ ##  Step 2: Data Cleaning
+###  Step 2: Data Cleaning
 - Checked for `NULL` or missing values in all tables
 - Standardized pizza size entries (`l` → `L`) using `UPPER()`
 - Verified data types and ensured relational consistency using foreign keys
@@ -105,7 +105,7 @@ SELECT DISTINCT size FROM pizzas;
 UPDATE pizzas
 SET size = UPPER(size);
 ```
-+ ## Step 3: Data Exploration
+### Step 3: Data Exploration
 - Counted rows, viewed unique pizza sizes and categories
 - Displayed distinct pizza types, table relationships, and value ranges
 
@@ -136,29 +136,17 @@ SELECT DISTINCT category FROM pizza_types;
 SELECT DISTINCT name FROM pizza_types;
 ```
 
-+ ## Step 4: Business Analysis & Insights
+### Step 4: Business Analysis & Insights
 - Defined solutions to key business problems
 - Discover Trends and Patterns to make right business decisions
 
-**Query:**
+**Some Example Queries:**
 ```sql
 -- What is the total revenue generated?
 SELECT SUM(o.quantity*p.price) AS total_revenue
 FROM order_details AS o
 JOIN pizzas AS p
 ON o.pizza_id=p.pizza_id;
-
--- How many total orders have been placed?
-SELECT COUNT(*) AS total_orders
-FROM orders;
-
--- Which pizza size is the most popular?
-SELECT p.size, COUNT(o.order_details_id) AS count
-FROM order_details AS o
-JOIN pizzas AS p
-ON o.pizza_id=p.pizza_id
-GROUP BY p.size
-ORDER BY count DESC LIMIT 1;
 
 -- What are the top 5 best-selling pizzas?
 SELECT pt.name, COUNT(o.order_details_id) AS count
@@ -169,10 +157,6 @@ JOIN pizza_types AS pt
 ON pt.pizza_type_id=p.pizza_type_id
 GROUP BY pt.name
 ORDER BY count DESC LIMIT 5;
-
--- What are the different pizza categories offered?
-SELECT DISTINCT(category) AS category
-FROM pizza_types;
 
 -- What is the average order value?
 SELECT ROUND(AVG(o.quantity*p.price),2) AS avg_order_value
@@ -201,17 +185,6 @@ FROM orders
 GROUP BY hour
 ORDER BY sales_count DESC;
 
--- Which pizzas have the least sales?
-SELECT pt.name, COUNT(o.order_details_id) AS sales_count
-FROM order_details AS o
-JOIN pizzas AS p
-ON o.pizza_id=p.pizza_id
-JOIN pizza_types AS pt
-ON pt.pizza_type_id=p.pizza_type_id
-GROUP BY pt.name
-ORDER BY sales_count ASC LIMIT 10;
-
-
 -- What is the average revenue per order?
 SELECT ROUND(SUM(od.quantity * p.price) / COUNT(DISTINCT o.order_id), 2) AS avg_order_revenue
 FROM orders o
@@ -219,16 +192,6 @@ JOIN order_details od
 ON o.order_id = od.order_id
 JOIN pizzas p 
 ON p.pizza_id = od.pizza_id;
-
--- What is the monthly revenue trend?
-SELECT TO_CHAR(o.date, 'Mon') AS month, SUM(od.quantity*p.price) AS total_revenue
-FROM orders AS o
-JOIN order_details AS od
-ON o.order_id=od.order_id
-JOIN pizzas AS p
-ON p.pizza_id=od.pizza_id
-GROUP BY month
-ORDER BY total_revenue;
 
 -- Which day of the week brings in the most revenue?
 SELECT TO_CHAR(o.date, 'Day') AS day, SUM(od.quantity*p.price) AS total_revenue
@@ -278,6 +241,8 @@ pizza_price_category AS (
 )
 SELECT * FROM pizza_sales;
 ```
+*All Queries:* 
+[Link](https://github.com/AdityaAgarwal1602/sql_pizza_sales_analysis/tree/main/pizza_sales_analysis.sql)
 
 ## License
 
